@@ -1,233 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Staff Application - Xeao</title>
+    <title>Staff Application</title>
     <style>
-        /* Global Styles */
         body {
+            background-color: #1e1e1e;
             font-family: Arial, sans-serif;
+            color: #ffcc00;
             margin: 0;
             padding: 0;
-            background-color: #1d1f22;
-            color: white;
-            overflow-x: hidden;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        header {
-            background-color: #222;
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #2e2e2e;
             padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
             text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
             color: #ffcc00;
-            text-shadow: 0 0 10px #ffcc00;
-        }
-
-        section {
-            padding: 50px 20px;
-            text-align: center;
-            background-color: #232323;
-        }
-
-        section h2 {
-            font-size: 2.5rem;
-            color: #ffcc00;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         form {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #2e2e2e;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        form label {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: #ffcc00;
-            text-align: left;
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        form input,
-        form select,
-        form textarea {
+        input, select, textarea {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
-            border: none;
             border-radius: 8px;
-            font-size: 1rem;
-            background-color: #3a3a3a;
-            color: white;
+            border: none;
             outline: none;
+            background-color: #444;
+            color: #fff;
+            font-size: 14px;
         }
 
-        form input[type="radio"],
-        form input[type="checkbox"] {
-            width: auto;
-            margin-right: 10px;
+        textarea {
+            resize: none;
+            height: 100px;
         }
 
-        form input::placeholder,
-        form textarea::placeholder {
-            color: #bbb;
+        /* Radio Button Custom Design */
+        form input[type="radio"] {
+            display: none;
         }
 
-        form input[type="submit"] {
-            background-color: #7289da;
-            color: white;
+        form input[type="radio"] + label {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            padding-left: 30px;
+            margin-right: 20px;
+            line-height: 1.5;
+            color: #ffcc00;
+        }
+
+        form input[type="radio"] + label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ffcc00;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        form input[type="radio"]:checked + label::before {
+            background-color: #ffcc00;
+            box-shadow: 0 0 5px #ffcc00;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background-color: #ffcc00;
+            color: #1e1e1e;
             font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        form input[type="submit"]:hover {
-            background-color: #5a6dbf;
-        }
-
-        footer {
-            text-align: center;
-            background-color: #222;
-            color: #bbb;
-            padding: 20px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+        .submit-btn:hover {
+            background-color: #ffe066;
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <h1>Xeao Staff Application</h1>
-    </header>
+    <div class="container">
+        <h1>Staff Application</h1>
+        <form id="application-form">
+            <label for="discord-username">Discord Username:</label>
+            <input type="text" id="discord-username" name="discordUsername" required>
 
-    <section>
-        <h2>Join Our Team</h2>
-        <p>Fill out the form below to apply for a position on the Xeao staff team.</p>
-        <form id="applicationForm">
-            <label for="discordUsername">1. Discord Username:</label>
-            <input type="text" id="discordUsername" name="discordUsername" placeholder="Your Discord Username (e.g., User#1234)" required>
+            <label for="minecraft-username">Minecraft Username (Optional):</label>
+            <input type="text" id="minecraft-username" name="minecraftUsername">
 
-            <label for="minecraftUsername">2. Minecraft Username:</label>
-            <input type="text" id="minecraftUsername" name="minecraftUsername" placeholder="Your Minecraft Username (optional)">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
 
-            <label for="country">3. Country:</label>
-            <input type="text" id="country" name="country" placeholder="Your Country" required>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
 
-            <label for="age">4. Age:</label>
-            <input type="number" id="age" name="age" placeholder="Your Age" required>
+            <label>Do you have any previous staff experience?</label>
+            <input type="radio" id="staff-yes" name="staffExperience" value="Yes" required>
+            <label for="staff-yes">Yes</label>
+            <input type="radio" id="staff-no" name="staffExperience" value="No">
+            <label for="staff-no">No</label>
 
-            <label for="timezone">5. What is your time zone?</label>
-            <input type="text" id="timezone" name="timezone" placeholder="e.g., GMT+1, EST" required>
+            <label>Why do you want to become a staff member?</label>
+            <textarea id="why-staff" name="whyStaff" required></textarea>
 
-            <label for="availableTime">6. How many hours can you dedicate per week?</label>
-            <select id="availableTime" name="availableTime" required>
-                <option value="5-10 hours">5-10 hours</option>
-                <option value="10-20 hours">10-20 hours</option>
-                <option value="20-30 hours">20-30 hours</option>
-                <option value="30+ hours">30+ hours</option>
-            </select>
+            <label>What skills do you bring to the team?</label>
+            <textarea id="skills" name="skills" required></textarea>
 
-            <label>7. Do you have any previous staff experience?</label>
-            <input type="radio" id="experienceYes" name="staffExperience" value="Yes" required>
-            <label for="experienceYes">Yes</label>
-            <input type="radio" id="experienceNo" name="staffExperience" value="No" required>
-            <label for="experienceNo">No</label>
+            <label>Do you have knowledge of moderation tools?</label>
+            <input type="radio" id="tools-yes" name="moderationTools" value="Yes" required>
+            <label for="tools-yes">Yes</label>
+            <input type="radio" id="tools-no" name="moderationTools" value="No">
+            <label for="tools-no">No</label>
 
-            <label for="whyJoin">8. Why do you want to join the Xeao staff team?</label>
-            <textarea id="whyJoin" name="whyJoin" rows="4" placeholder="Write your response here..." required></textarea>
+            <label>What is your availability (hours per week)?</label>
+            <input type="number" id="availability" name="availability" required>
 
-            <label for="skills">9. What skills do you bring to the team?</label>
-            <textarea id="skills" name="skills" rows="4" placeholder="e.g., moderation, building, coding, etc." required></textarea>
+            <label for="additional-info">Any additional information:</label>
+            <textarea id="additional-info" name="additionalInfo"></textarea>
 
-            <label for="favoriteAspect">10. What is your favorite aspect of Xeao?</label>
-            <input type="text" id="favoriteAspect" name="favoriteAspect" placeholder="Your favorite part of Xeao" required>
-
-            <label>11. Have you ever been banned or punished on a server?</label>
-            <input type="radio" id="punishedYes" name="punished" value="Yes" required>
-            <label for="punishedYes">Yes</label>
-            <input type="radio" id="punishedNo" name="punished" value="No" required>
-            <label for="punishedNo">No</label>
-
-            <label for="communication">12. Are you comfortable using voice communication apps?</label>
-            <select id="communication" name="communication" required>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-                <option value="Sometimes">Sometimes</option>
-            </select>
-
-            <label for="maturity">13. How would you rate your maturity level on a scale of 1-10?</label>
-            <input type="number" id="maturity" name="maturity" min="1" max="10" required>
-
-            <label for="goals">14. What are your goals for joining the Xeao staff team?</label>
-            <textarea id="goals" name="goals" rows="4" placeholder="Write your response here..." required></textarea>
-
-            <label for="additionalInfo">15. Is there anything else you'd like to add?</label>
-            <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Optional"></textarea>
-
-            <input type="submit" value="Submit Application">
+            <button type="submit" class="submit-btn">Submit</button>
         </form>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Xeao. All rights reserved.</p>
-    </footer>
+    </div>
 
     <script>
-        const form = document.getElementById('applicationForm');
-
-        form.addEventListener('submit', async (e) => {
+        document.getElementById("application-form").addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            const formData = new FormData(form);
-            const embedFields = [];
-            for (let [key, value] of formData.entries()) {
-                embedFields.push({ name: key.replace(/([a-z])([A-Z])/g, '$1 $2'), value: value || "Not provided", inline: true });
-            }
-
+            const webhookUrl = "https://discord.com/api/webhooks/1333123324741419028/2Nk9PXijGF11jR9ZMqChJUygEI0DRKkYPRmUEpxRuChVm6UBlxZw9WiYejlbWKqSV_Ph";
+            const formData = new FormData(this);
             const embed = {
-                username: "Xeao Staff Application",
-                embeds: [
-                    {
-                        title: "New Staff Application",
-                        color: 7506394,
-                        fields: embedFields,
-                        timestamp: new Date().toISOString()
-                    }
-                ]
+                title: "New Staff Application",
+                fields: []
             };
 
-            try {
-                const response = await fetch('https://discord.com/api/webhooks/1333123324741419028/2Nk9PXijGF11jR9ZMqChJUygEI0DRKkYPRmUEpxRuChVm6UBlxZw9WiYejlbWKqSV_Ph', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(embed)
-                });
-
-                if (response.ok) {
-                    alert('Application submitted successfully!');
-                    form.reset();
-                } else {
-                    alert('Failed to submit application. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while submitting your application.');
+            for (let [key, value] of formData.entries()) {
+                embed.fields.push({ name: key, value: value || "N/A", inline: true });
             }
+
+            await fetch(webhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ embeds: [embed] })
+            });
+
+            alert("Application submitted!");
+            this.reset();
         });
     </script>
 </body>
-
 </html>
