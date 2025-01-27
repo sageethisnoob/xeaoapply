@@ -25,7 +25,7 @@
         }
 
         header h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: #ffcc00;
             text-shadow: 0 0 10px #ffcc00;
         }
@@ -43,29 +43,45 @@
         }
 
         form {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             background-color: #2e2e2e;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
 
         form label {
             display: block;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 10px;
             color: #ffcc00;
             text-align: left;
         }
 
-        form input, form select, form textarea {
+        form input,
+        form select,
+        form textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1rem;
+            background-color: #3a3a3a;
+            color: white;
+            outline: none;
+        }
+
+        form input[type="radio"],
+        form input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        form input::placeholder,
+        form textarea::placeholder {
+            color: #bbb;
         }
 
         form input[type="submit"] {
@@ -101,20 +117,65 @@
         <h2>Join Our Team</h2>
         <p>Fill out the form below to apply for a position on the Xeao staff team.</p>
         <form id="applicationForm">
-            <label for="discordUsername">Discord Username:</label>
+            <label for="discordUsername">1. Discord Username:</label>
             <input type="text" id="discordUsername" name="discordUsername" placeholder="Your Discord Username (e.g., User#1234)" required>
 
-            <label for="minecraftUsername">Minecraft Username:</label>
+            <label for="minecraftUsername">2. Minecraft Username:</label>
             <input type="text" id="minecraftUsername" name="minecraftUsername" placeholder="Your Minecraft Username (optional)">
 
-            <label for="country">Country:</label>
+            <label for="country">3. Country:</label>
             <input type="text" id="country" name="country" placeholder="Your Country" required>
 
-            <label for="age">Age:</label>
+            <label for="age">4. Age:</label>
             <input type="number" id="age" name="age" placeholder="Your Age" required>
 
-            <label for="whyJoin">Why do you want to join the Xeao staff team?</label>
+            <label for="timezone">5. What is your time zone?</label>
+            <input type="text" id="timezone" name="timezone" placeholder="e.g., GMT+1, EST" required>
+
+            <label for="availableTime">6. How many hours can you dedicate per week?</label>
+            <select id="availableTime" name="availableTime" required>
+                <option value="5-10 hours">5-10 hours</option>
+                <option value="10-20 hours">10-20 hours</option>
+                <option value="20-30 hours">20-30 hours</option>
+                <option value="30+ hours">30+ hours</option>
+            </select>
+
+            <label>7. Do you have any previous staff experience?</label>
+            <input type="radio" id="experienceYes" name="staffExperience" value="Yes" required>
+            <label for="experienceYes">Yes</label>
+            <input type="radio" id="experienceNo" name="staffExperience" value="No" required>
+            <label for="experienceNo">No</label>
+
+            <label for="whyJoin">8. Why do you want to join the Xeao staff team?</label>
             <textarea id="whyJoin" name="whyJoin" rows="4" placeholder="Write your response here..." required></textarea>
+
+            <label for="skills">9. What skills do you bring to the team?</label>
+            <textarea id="skills" name="skills" rows="4" placeholder="e.g., moderation, building, coding, etc." required></textarea>
+
+            <label for="favoriteAspect">10. What is your favorite aspect of Xeao?</label>
+            <input type="text" id="favoriteAspect" name="favoriteAspect" placeholder="Your favorite part of Xeao" required>
+
+            <label>11. Have you ever been banned or punished on a server?</label>
+            <input type="radio" id="punishedYes" name="punished" value="Yes" required>
+            <label for="punishedYes">Yes</label>
+            <input type="radio" id="punishedNo" name="punished" value="No" required>
+            <label for="punishedNo">No</label>
+
+            <label for="communication">12. Are you comfortable using voice communication apps?</label>
+            <select id="communication" name="communication" required>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Sometimes">Sometimes</option>
+            </select>
+
+            <label for="maturity">13. How would you rate your maturity level on a scale of 1-10?</label>
+            <input type="number" id="maturity" name="maturity" min="1" max="10" required>
+
+            <label for="goals">14. What are your goals for joining the Xeao staff team?</label>
+            <textarea id="goals" name="goals" rows="4" placeholder="Write your response here..." required></textarea>
+
+            <label for="additionalInfo">15. Is there anything else you'd like to add?</label>
+            <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Optional"></textarea>
 
             <input type="submit" value="Submit Application">
         </form>
@@ -130,11 +191,11 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const discordUsername = document.getElementById('discordUsername').value;
-            const minecraftUsername = document.getElementById('minecraftUsername').value || "Not provided";
-            const country = document.getElementById('country').value;
-            const age = document.getElementById('age').value;
-            const whyJoin = document.getElementById('whyJoin').value;
+            const formData = new FormData(form);
+            const embedFields = [];
+            for (let [key, value] of formData.entries()) {
+                embedFields.push({ name: key.replace(/([a-z])([A-Z])/g, '$1 $2'), value: value || "Not provided", inline: true });
+            }
 
             const embed = {
                 username: "Xeao Staff Application",
@@ -142,13 +203,7 @@
                     {
                         title: "New Staff Application",
                         color: 7506394,
-                        fields: [
-                            { name: "Discord Username", value: discordUsername, inline: true },
-                            { name: "Minecraft Username", value: minecraftUsername, inline: true },
-                            { name: "Country", value: country, inline: true },
-                            { name: "Age", value: age, inline: true },
-                            { name: "Reason to Join", value: whyJoin }
-                        ],
+                        fields: embedFields,
                         timestamp: new Date().toISOString()
                     }
                 ]
